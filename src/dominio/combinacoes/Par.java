@@ -2,44 +2,35 @@ package dominio.combinacoes;
 
 import dominio.Carta;
 import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
 import java.util.List;
 
-public class Par extends Combinacao {
+public class Par {
 
-    @Override
-    public boolean eh() {
-        final PokerHand hand = getPokerHand();
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        final var resultado = new ResultadoVerificacao(pokerHand, false);
 
         for (int i = 0; i < 4; i++) {
-            final List<Carta> possivelDupla = hand.procuraValor(hand.getCarta(i));
+            final List<Carta> possivelDupla = pokerHand.procuraValor(pokerHand.getCarta(i));
 
             if (possivelDupla.size() == 2) {
-                marcaCartasComoDaCombinacao(possivelDupla);
-                return true;
+                resultado.marcaCartasComoDaCombinacao(possivelDupla);
+                resultado.setSucesso(true);
+                return resultado;
             }
         }
 
-        return false;
+        return resultado;
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof Par) ) {
-            throw new RuntimeException("A outra combinação deve ser um Par");
-        }
-
-        int desempateHigh = desempateHighCard(combinacao);
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        int desempateHigh = CombinacaoUtils.desempateHighCard(resultado1, resultado2);
 
         if (desempateHigh != 0) {
             return desempateHigh;
         }
 
-        return desempateKicker(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new Par();
+        return CombinacaoUtils.desempateKicker(resultado1, resultado2);
     }
 }

@@ -2,63 +2,70 @@ package dominio.combinacoes;
 
 import dominio.Carta;
 import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FullHouse extends Combinacao {
+public class FullHouse {
 
-    private List<Carta> dupla;
-    private List<Carta> trio;
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        final var resultado = new ResultadoVerificacao(pokerHand, false);
 
-    public List<Carta> getDupla() {
-        return dupla;
-    }
-
-    public List<Carta> getTrio() {
-        return trio;
-    }
-
-    @Override
-    public boolean eh() {
-        final PokerHand hand = getPokerHand();
-
-        final List<Carta> menoresCartas = hand.procuraValor(hand.getCarta(0));
+        final List<Carta> menoresCartas = pokerHand.procuraValor(pokerHand.getCarta(0));
         int quantidadeMenorCarta = menoresCartas.size();
 
         if (quantidadeMenorCarta < 2) {
-            return false;
+            return resultado;
         }
         if (quantidadeMenorCarta == 2) {
-            dupla = menoresCartas;
-            final List<Carta> maioresCartas = hand.procuraValor(hand.getCarta(2));
-            trio = maioresCartas;
+            final List<Carta> maioresCartas = pokerHand.procuraValor(pokerHand.getCarta(2));
 
-            return maioresCartas.size() == 3;
+            if (maioresCartas.size() == 3) {
+                resultado.marcaCartasComoDaCombinacao(pokerHand.getCartas());
+                resultado.setSucesso(true);
+            }
+
+            return resultado;
         }
 
-        trio = menoresCartas;
-        final List<Carta> maioresCartas = hand.procuraValor(hand.getCarta(3));
-        dupla = maioresCartas;
+        final List<Carta> maioresCartas = pokerHand.procuraValor(pokerHand.getCarta(3));
+        if (maioresCartas.size() == 2) {
+            resultado.marcaCartasComoDaCombinacao(pokerHand.getCartas());
+            resultado.setSucesso(true);
+        }
 
-        return maioresCartas.size() == 2;
+        return resultado;
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof FullHouse) ) {
-            throw new RuntimeException("A outra combinação deve ser um Full House");
-        }
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        var trio1 = new ArrayList<Carta>();
+        var trio2 = new ArrayList<Carta>();
+        var dupla1 = new ArrayList<Carta>();
+        var dupla2 = new ArrayList<Carta>();
 
-        int maiorTrio = trio.get(0).getValor().compareTo(((FullHouse) combinacao).getTrio().get(0).getValor());
+        final PokerHand hand1 = resultado1.getPokerHand();
+        final PokerHand hand2 = resultado2.getPokerHand();
+
+        encontraTrioEDupla(hand1, trio1, dupla1);
+        encontraTrioEDupla(hand2, trio2, dupla2);
+
+        int maiorTrio = trio1.get(0).compareTo(trio2.get(0));
         if (maiorTrio != 0) {
             return maiorTrio;
         }
 
-        return dupla.get(0).getValor().compareTo(((FullHouse) combinacao).getDupla().get(0).getValor());
+        return dupla1.get(0).compareTo(dupla2.get(0));
     }
 
-    @Override
-    public Combinacao clone() {
-        return new FullHouse();
+    private static void encontraTrioEDupla(final PokerHand hand, final List<Carta> trio, final List<Carta> dupla) {
+        if (hand.procuraValor(hand.getCarta(0)).size() == 3) {
+            trio.addAll(hand.getCartas().subList(0, 3));
+            dupla.addAll(hand.getCartas().subList(3, 5));
+        }
+        else {
+            trio.addAll(hand.getCartas().subList(2, 5));
+            dupla.addAll(hand.getCartas().subList(0, 2));
+        }
     }
 }

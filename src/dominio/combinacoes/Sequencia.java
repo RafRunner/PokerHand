@@ -1,33 +1,15 @@
 package dominio.combinacoes;
 
-import enuns.Valor;
+import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
-public class Sequencia extends Combinacao {
+public class Sequencia {
 
-    @Override
-    public boolean eh() {
-        return ehSequencia(getPokerHand());
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        return CombinacaoUtils.ehSequencia(pokerHand);
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof Sequencia) ) {
-            throw new RuntimeException("A outra combinação deve ser uma Sequência");
-        }
-
-        if (getPokerHand().getCarta(0).ehValor(Valor.Dois)) {
-            getPokerHand().getCartas().remove(4);
-        }
-
-        if (combinacao.getPokerHand().getCarta(0).ehValor(Valor.Dois)) {
-            combinacao.getPokerHand().getCartas().remove(4);
-        }
-
-        return desempateHighCard(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new Sequencia();
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        return CombinacaoUtils.desempateHighCard(resultado1, resultado2);
     }
 }

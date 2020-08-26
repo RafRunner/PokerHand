@@ -2,44 +2,35 @@ package dominio.combinacoes;
 
 import dominio.Carta;
 import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
 import java.util.List;
 
-public class Quadra extends Combinacao {
+public class Quadra {
 
-    @Override
-    public boolean eh() {
-        final PokerHand hand = getPokerHand();
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        final var resultado = new ResultadoVerificacao(pokerHand, false);
 
         for (int i = 0; i < 2; i++) {
-            final List<Carta> possivelQuadra = hand.procuraValor(hand.getCarta(i));
+            final List<Carta> possivelQuadra = pokerHand.procuraValor(pokerHand.getCarta(i));
 
             if (possivelQuadra.size() == 4) {
-                marcaCartasComoDaCombinacao(possivelQuadra);
-                return true;
+                resultado.marcaCartasComoDaCombinacao(possivelQuadra);
+                resultado.setSucesso(true);
+                return resultado;
             }
         }
 
-        return false;
+        return resultado;
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof Quadra) ) {
-            throw new RuntimeException("A outra combinação deve ser uma Quadra");
-        }
-
-        int desempateHigh = desempateHighCard(combinacao);
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        int desempateHigh = CombinacaoUtils.desempateHighCard(resultado1, resultado2);
 
         if (desempateHigh != 0) {
             return desempateHigh;
         }
 
-        return desempateKicker(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new Quadra();
+        return CombinacaoUtils.desempateKicker(resultado1, resultado2);
     }
 }

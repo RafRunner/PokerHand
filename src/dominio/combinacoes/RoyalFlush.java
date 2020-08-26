@@ -1,38 +1,28 @@
 package dominio.combinacoes;
 
 import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 import enuns.Valor;
 
-public class RoyalFlush extends Combinacao {
+public class RoyalFlush {
 
-    @Override
-    public boolean eh() {
-        final PokerHand hand = getPokerHand();
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        var resultado = new ResultadoVerificacao(pokerHand, false);
 
-        if (!hand.getCarta(0).ehValor(Valor.Dez)) {
-            return false;
+        if (!pokerHand.getCarta(0).ehValor(Valor.Dez)) {
+            return resultado;
         }
 
-        if (!ehFlush(hand)) {
-            return false;
+        resultado = CombinacaoUtils.ehFlush(pokerHand);
+        if (!resultado.getSucesso()) {
+            return resultado;
         }
 
-        return ehSequencia(hand);
+        return CombinacaoUtils.ehSequencia(pokerHand);
     }
 
     // Royal flush sempre empata
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof RoyalFlush) ) {
-            throw new RuntimeException("A outra combinação deve ser um Royal Flush");
-        }
-
-
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
         return 0;
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new RoyalFlush();
     }
 }

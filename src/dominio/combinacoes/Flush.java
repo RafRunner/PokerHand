@@ -1,23 +1,15 @@
 package dominio.combinacoes;
 
-public class Flush extends Combinacao {
+import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
-    @Override
-    public boolean eh() {
-        return ehFlush(getPokerHand());
+public class Flush {
+
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        return CombinacaoUtils.ehFlush(pokerHand);
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof Flush) ) {
-            throw new RuntimeException("A outra combinação deve ser um Flush");
-        }
-
-        return desempateHighCard(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new Flush();
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        return CombinacaoUtils.desempateHighCard(resultado1, resultado2);
     }
 }

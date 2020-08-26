@@ -1,19 +1,18 @@
 package dominio.combinacoes;
 
-public class Nada extends Combinacao {
+import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
-    @Override
-    public boolean eh() {
-        return true;
+public class Nada {
+
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        final var resultado = new ResultadoVerificacao(pokerHand, true);
+        resultado.marcaCartasComoDaCombinacao(pokerHand.getCartas());
+
+        return resultado;
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        return desempateHighCard(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new Nada();
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        return CombinacaoUtils.desempateHighCard(resultado1, resultado2);
     }
 }

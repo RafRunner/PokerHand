@@ -31,13 +31,17 @@ public class Carta implements Comparable<Carta> {
 
     @Override
     public int compareTo(final Carta o) {
-        if (this.valor.compareTo(o.getValor()) < 0) {
-            return -1;
-        }
-        if (this.valor.compareTo(o.getValor()) > 0) {
-            return 1;
+        final int comparacaoValor = this.valor.compareTo(o.getValor());
+
+        return comparacaoValor != 0 ? comparacaoValor : this.naipe.compareTo(o.getNaipe());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof Carta)) {
+            return false;
         }
 
-        return this.naipe.compareTo(o.getNaipe());
+        return compareTo((Carta) obj) == 0;
     }
 }

@@ -1,27 +1,20 @@
 package dominio.combinacoes;
 
-public class StraightFlush extends Combinacao {
+import dominio.PokerHand;
+import dominio.ResultadoVerificacao;
 
-    @Override
-    public boolean eh() {
-        if (!ehFlush(getPokerHand())) {
-            return false;
+public class StraightFlush {
+
+    public static ResultadoVerificacao eh(final PokerHand pokerHand) {
+        final var resultado = CombinacaoUtils.ehFlush(pokerHand);
+        if (!resultado.getSucesso()) {
+            return resultado;
         }
 
-        return ehSequencia(getPokerHand());
+        return CombinacaoUtils.ehSequencia(pokerHand);
     }
 
-    @Override
-    public int desenpata(final Combinacao combinacao) {
-        if (!(combinacao instanceof StraightFlush) ) {
-            throw new RuntimeException("A outra combinação deve ser um Straight Flush");
-        }
-
-        return desempateHighCard(combinacao);
-    }
-
-    @Override
-    public Combinacao clone() {
-        return new StraightFlush();
+    public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
+        return CombinacaoUtils.desempateHighCard(resultado1, resultado2);
     }
 }

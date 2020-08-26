@@ -1,7 +1,5 @@
 package dominio;
 
-import dominio.combinacoes.Combinacao;
-import dominio.combinacoes.Nada;
 import enuns.ECombinacao;
 import enuns.Naipe;
 import enuns.Result;
@@ -14,10 +12,16 @@ import java.util.List;
 
 public class PokerHand implements Comparable<PokerHand> {
 
-    private final List<Carta> cartas = new ArrayList<>();
+    private final List<Carta> cartas;
 
     // As cartas estarão sempre em ordem crescente
+    public PokerHand(final List<Carta> cartas) {
+        this.cartas = cartas;
+        Collections.sort(this.cartas);
+    }
+
     public PokerHand(final String mao) {
+        cartas = new ArrayList<>();
         final String[] cartasRepresentadas = mao.split(" ");
 
         for (final String c : cartasRepresentadas) {
@@ -69,28 +73,27 @@ public class PokerHand implements Comparable<PokerHand> {
     public int compareTo(final PokerHand o) {
         final ECombinacao[] combinacoes = ECombinacao.values();
 
-        ECombinacao essaECombinacao = ECombinacao.Nada;
-        ECombinacao outraECombinacao = ECombinacao.Nada;
+        ECombinacao essaECombinacao = ECombinacao.ENada;
+        ECombinacao outraECombinacao = ECombinacao.ENada;
+        ResultadoVerificacao esseResultado = essaECombinacao.eh(this);
+        ResultadoVerificacao outroResultado = outraECombinacao.eh(o);
 
-        Combinacao essaCombinacao = new Nada();
-        Combinacao outraCombinacao = new Nada();
+        for (final ECombinacao eCombinacao : combinacoes) {
+            ResultadoVerificacao esseResultadoParcial = eCombinacao.eh(this);
+            ResultadoVerificacao outroResultadoParcial = eCombinacao.eh(o);
 
-        for (ECombinacao eCombinacao : combinacoes) {
-            final Combinacao combinacao = eCombinacao.getCombinacao();
-            if (combinacao.setPokerHand(this).eh()) {
+            if (esseResultadoParcial.getSucesso()) {
+                esseResultado = esseResultadoParcial;
                 essaECombinacao = eCombinacao;
-                essaCombinacao = combinacao;
             }
-
-            final Combinacao oCombinacao = combinacao.clone();
-            if (oCombinacao.setPokerHand(o).eh()) {
+            if (outroResultadoParcial.getSucesso()) {
+                outroResultado = outroResultadoParcial;
                 outraECombinacao = eCombinacao;
-                outraCombinacao = oCombinacao;
             }
         }
 
         if (essaECombinacao.ordinal() == outraECombinacao.ordinal()) {
-            return essaCombinacao.desenpata(outraCombinacao);
+            return essaECombinacao.desenpata(esseResultado, outroResultado);
         }
 
         return Integer.compare(essaECombinacao.ordinal(), outraECombinacao.ordinal());
