@@ -24,7 +24,7 @@ public class Quadra extends Combinacao {
     }
 
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         if (!(combinacao instanceof Quadra) ) {
             throw new RuntimeException("A outra combinação deve ser uma Quadra");
         }

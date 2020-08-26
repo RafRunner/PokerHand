@@ -35,7 +35,7 @@ public class PokerHand implements Comparable<PokerHand> {
         return cartas.get(index);
     }
 
-    public List<Carta> procuraNaipe(final Naipe naipe) {
+    private List<Carta> procuraNaipe(final Naipe naipe) {
         final List<Carta> cartas = new ArrayList<>();
 
         for (Carta carta : this.cartas) {
@@ -50,7 +50,7 @@ public class PokerHand implements Comparable<PokerHand> {
         return procuraNaipe(carta.getNaipe());
     }
 
-    public List<Carta> procuraValor(final Valor valor) {
+    private List<Carta> procuraValor(final Valor valor) {
         final List<Carta> cartas = new ArrayList<>();
 
         for (Carta carta : this.cartas) {
@@ -75,21 +75,21 @@ public class PokerHand implements Comparable<PokerHand> {
         Combinacao essaCombinacao = new Nada();
         Combinacao outraCombinacao = new Nada();
 
-        for (ECombinacao ec : combinacoes) {
-            final Combinacao combinacao = ec.getCombinacao();
+        for (ECombinacao eCombinacao : combinacoes) {
+            final Combinacao combinacao = eCombinacao.getCombinacao();
             if (combinacao.setPokerHand(this).eh()) {
-                essaECombinacao = ec;
+                essaECombinacao = eCombinacao;
                 essaCombinacao = combinacao;
             }
 
             final Combinacao oCombinacao = combinacao.clone();
             if (oCombinacao.setPokerHand(o).eh()) {
-                outraECombinacao = ec;
+                outraECombinacao = eCombinacao;
                 outraCombinacao = oCombinacao;
             }
         }
 
-        if (essaECombinacao.ordinal() - outraECombinacao.ordinal() == 0) {
+        if (essaECombinacao.ordinal() == outraECombinacao.ordinal()) {
             return essaCombinacao.desenpata(outraCombinacao);
         }
 

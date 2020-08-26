@@ -6,11 +6,11 @@ public class Sequencia extends Combinacao {
 
     @Override
     public boolean eh() {
-        return ehSequencia();
+        return ehSequencia(getPokerHand());
     }
 
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         if (!(combinacao instanceof Sequencia) ) {
             throw new RuntimeException("A outra combinação deve ser uma Sequência");
         }

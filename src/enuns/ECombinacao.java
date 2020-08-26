@@ -22,7 +22,7 @@ public enum ECombinacao {
     }
 
     public Combinacao getCombinacao() {
-        return combinacao;
+        return combinacao.clone();
     }
 
 }

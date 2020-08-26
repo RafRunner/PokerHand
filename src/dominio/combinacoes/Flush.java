@@ -4,11 +4,11 @@ public class Flush extends Combinacao {
 
     @Override
     public boolean eh() {
-        return ehFlush();
+        return ehFlush(getPokerHand());
     }
 
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         if (!(combinacao instanceof Flush) ) {
             throw new RuntimeException("A outra combinação deve ser um Flush");
         }

@@ -4,15 +4,15 @@ public class StraightFlush extends Combinacao {
 
     @Override
     public boolean eh() {
-        if (!ehFlush()) {
+        if (!ehFlush(getPokerHand())) {
             return false;
         }
 
-        return ehSequencia();
+        return ehSequencia(getPokerHand());
     }
 
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         if (!(combinacao instanceof StraightFlush) ) {
             throw new RuntimeException("A outra combinação deve ser um Straight Flush");
         }

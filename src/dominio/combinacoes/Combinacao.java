@@ -20,27 +20,26 @@ public abstract class Combinacao {
         return this;
     }
 
-    public List<Carta> getCartasForaDaCombinacao() {
+    private List<Carta> getCartasForaDaCombinacao() {
         return cartasForaDaCombinacao;
     }
 
-    public List<Carta> getCartasCombinacao() {
+    private List<Carta> getCartasCombinacao() {
         return cartasCombinacao;
     }
 
-    public PokerHand getPokerHand() {
+    PokerHand getPokerHand() {
         return pokerHand;
     }
 
-    protected boolean ehSequencia() {
+    static boolean ehSequencia(final PokerHand pokerHand) {
         final List<Carta> cartas = pokerHand.getCartas();
         Carta cartaAnterior = cartas.get(0);
 
         for (int i = 1; i < cartas.size(); i++) {
-            Carta cartaAtual = cartas.get(i);
+            final Carta cartaAtual = cartas.get(i);
 
-            if (cartaAtual.getValor().ordinal() != cartaAnterior.getValor().ordinal() + 1 &&
-                    !(cartaAnterior.ehValor(Valor.Cinco) && cartaAtual.ehValor(Valor.Ace))) {
+            if (cartaAtual.getValor().ordinal() != cartaAnterior.getValor().ordinal() + 1) {
                 return false;
             }
             cartaAnterior = cartaAtual;
@@ -49,11 +48,11 @@ public abstract class Combinacao {
         return true;
     }
 
-    protected boolean ehFlush() {
+    static boolean ehFlush(final PokerHand pokerHand) {
         return pokerHand.procuraNaipe(pokerHand.getCarta(0)).size() == 5;
     }
 
-    protected void marcaCartasComoDaCombinacao(List<Carta> cartas) {
+    void marcaCartasComoDaCombinacao(final List<Carta> cartas) {
         if (cartasCombinacao.size() == 5) {
             cartasCombinacao = new ArrayList<>();
         }
@@ -66,7 +65,7 @@ public abstract class Combinacao {
         }
     }
 
-    protected int desempateKicker(Combinacao combinacao) {
+    int desempateKicker(final Combinacao combinacao) {
         for (int i = cartasForaDaCombinacao.size() - 1; i >= 0; i--) {
            int resultado =  cartasForaDaCombinacao.get(i).getValor().compareTo(combinacao.getCartasForaDaCombinacao().get(i).getValor());
 
@@ -78,7 +77,7 @@ public abstract class Combinacao {
         return 0;
     }
 
-    protected int desempateHighCard(Combinacao combinacao) {
+    int desempateHighCard(final Combinacao combinacao) {
         for (int i = cartasCombinacao.size() - 1; i >= 0; i--) {
             int resultado =  cartasCombinacao.get(i).getValor().compareTo(combinacao.getCartasCombinacao().get(i).getValor());
 
@@ -92,7 +91,7 @@ public abstract class Combinacao {
 
     public abstract boolean eh();
 
-    public abstract int desenpata(Combinacao combinacao);
+    public abstract int desenpata(final Combinacao combinacao);
 
     public abstract Combinacao clone();
 }

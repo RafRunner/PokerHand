@@ -2,12 +2,15 @@ package testes;
 
 import dominio.*;
 import dominio.combinacoes.*;
+import enuns.ECombinacao;
 import enuns.Result;
+
+import java.util.Arrays;
 
 public class Testes {
 
     public static void main(String[] args) {
-        PokerHand pokerHand = new PokerHand("KS 2H 5C JD TD");
+        PokerHand nada = new PokerHand("KS 2H 5C JD TD");
         PokerHand royalFlush = new PokerHand("TH AH JH QH KH");
         PokerHand straighFlush = new PokerHand("5C 6C 7C 8C 9C");
         PokerHand quadra = new PokerHand("8C AD AS AC AH");
@@ -16,6 +19,8 @@ public class Testes {
         PokerHand trica = new PokerHand("5C 8D JC JH JD");
         PokerHand doisPares = new PokerHand("TD TC 6S 6C KD");
         PokerHand par = new PokerHand("8S 6H 2D AH AS");
+
+        Arrays.stream(ECombinacao.values()).forEach(eCombinacao -> { assert(!eCombinacao.getCombinacao().setPokerHand(nada).eh()); });
 
         System.out.println("1 - " + new RoyalFlush().setPokerHand(royalFlush).eh());
         System.out.println("2 - " + !new RoyalFlush().setPokerHand(straighFlush).eh());

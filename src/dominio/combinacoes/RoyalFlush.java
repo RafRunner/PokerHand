@@ -13,16 +13,16 @@ public class RoyalFlush extends Combinacao {
             return false;
         }
 
-        if (!ehFlush()) {
+        if (!ehFlush(hand)) {
             return false;
         }
 
-        return ehSequencia();
+        return ehSequencia(hand);
     }
 
     // Royal flush sempre empata
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         if (!(combinacao instanceof RoyalFlush) ) {
             throw new RuntimeException("A outra combinação deve ser um Royal Flush");
         }

@@ -8,7 +8,7 @@ public class Nada extends Combinacao {
     }
 
     @Override
-    public int desenpata(Combinacao combinacao) {
+    public int desenpata(final Combinacao combinacao) {
         return desempateHighCard(combinacao);
     }
 
