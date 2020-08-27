@@ -14,12 +14,11 @@ public enum Naipe {
     }
 
     public static Naipe fromRepresentacao(final String representacao) {
-        Naipe naipe = null;
         for (Naipe n : values()) {
             if (representacao.equals(n.representacao)) {
-                naipe = n;
+                return n;
             }
         }
-        return naipe;
+        return null;
     }
 }

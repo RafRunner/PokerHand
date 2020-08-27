@@ -23,12 +23,11 @@ public enum Valor {
     }
 
     public static Valor fromRepresentacao(final String representacao) {
-        Valor valor = null;
         for (Valor v : values()) {
             if (representacao.equals(v.representacao)) {
-                valor = v;
+                return v;
             }
         }
-        return valor;
+        return null;
     }
 }

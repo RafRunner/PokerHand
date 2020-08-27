@@ -42,7 +42,7 @@ public class CombinacaoUtils {
 
     static int desempateKicker(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
         for (int i = resultado1.getCartasForaDaCombinacao().size() - 1; i >= 0; i--) {
-            int resultado = resultado1.getCartasForaDaCombinacao().get(i).compareTo(resultado2.getCartasForaDaCombinacao().get(i));
+            int resultado = resultado1.getCartasForaDaCombinacao().get(i).compareValor(resultado2.getCartasForaDaCombinacao().get(i));
 
             if (resultado != 0) {
                 return resultado;
@@ -54,7 +54,7 @@ public class CombinacaoUtils {
 
     static int desempateHighCard(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
         for (int i = resultado1.getCartasCombinacao().size() - 1; i >= 0; i--) {
-            int resultado = resultado1.getCartasCombinacao().get(i).compareTo(resultado2.getCartasCombinacao().get(i));
+            int resultado = resultado1.getCartasCombinacao().get(i).compareValor(resultado2.getCartasCombinacao().get(i));
 
             if (resultado != 0) {
                 return resultado;

@@ -7,8 +7,10 @@ import enuns.Valor;
 import factories.CartaFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PokerHand implements Comparable<PokerHand> {
 
@@ -21,14 +23,7 @@ public class PokerHand implements Comparable<PokerHand> {
     }
 
     public PokerHand(final String mao) {
-        cartas = new ArrayList<>();
-        final String[] cartasRepresentadas = mao.split(" ");
-
-        for (final String c : cartasRepresentadas) {
-            cartas.add(CartaFactory.fromRepresentacao(c.trim()));
-        }
-
-        Collections.sort(cartas);
+        this(Arrays.stream(mao.split(" ")).map(CartaFactory::fromRepresentacao).collect(Collectors.toList()));
     }
 
     public List<Carta> getCartas() {
@@ -78,7 +73,8 @@ public class PokerHand implements Comparable<PokerHand> {
         ResultadoVerificacao esseResultado = essaECombinacao.eh(this);
         ResultadoVerificacao outroResultado = outraECombinacao.eh(o);
 
-        for (final ECombinacao eCombinacao : combinacoes) {
+        for (int i = 1; i < combinacoes.length; i++) {
+            final ECombinacao eCombinacao = combinacoes[i];
             ResultadoVerificacao esseResultadoParcial = eCombinacao.eh(this);
             ResultadoVerificacao outroResultadoParcial = eCombinacao.eh(o);
 
