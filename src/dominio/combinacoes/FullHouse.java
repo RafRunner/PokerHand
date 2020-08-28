@@ -3,6 +3,7 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
+import enuns.ECombinacao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class FullHouse {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, false);
+        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.EFullHouse);
 
         final List<Carta> menoresCartas = pokerHand.procuraValor(pokerHand.getCarta(0));
         int quantidadeMenorCarta = menoresCartas.size();
@@ -39,10 +40,10 @@ public class FullHouse {
     }
 
     public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
-        var trio1 = new ArrayList<Carta>();
-        var trio2 = new ArrayList<Carta>();
-        var dupla1 = new ArrayList<Carta>();
-        var dupla2 = new ArrayList<Carta>();
+        final var trio1 = new ArrayList<Carta>();
+        final var trio2 = new ArrayList<Carta>();
+        final var dupla1 = new ArrayList<Carta>();
+        final var dupla2 = new ArrayList<Carta>();
 
         final PokerHand hand1 = resultado1.getPokerHand();
         final PokerHand hand2 = resultado2.getPokerHand();
@@ -50,7 +51,7 @@ public class FullHouse {
         encontraTrioEDupla(hand1, trio1, dupla1);
         encontraTrioEDupla(hand2, trio2, dupla2);
 
-        int maiorTrio = trio1.get(0).compareTo(trio2.get(0));
+        final int maiorTrio = trio1.get(0).compareTo(trio2.get(0));
         if (maiorTrio != 0) {
             return maiorTrio;
         }

@@ -3,13 +3,14 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
+import enuns.ECombinacao;
 
 import java.util.List;
 
 public class Trinca {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, false);
+        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.ETrinca);
 
         for (int i = 0; i < 3; i++) {
             final List<Carta> cartasIguais = pokerHand.procuraValor(pokerHand.getCarta(i));

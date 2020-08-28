@@ -6,7 +6,6 @@ import enuns.Result;
 import enuns.Valor;
 import factories.CartaFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,14 +34,7 @@ public class PokerHand implements Comparable<PokerHand> {
     }
 
     private List<Carta> procuraNaipe(final Naipe naipe) {
-        final List<Carta> cartas = new ArrayList<>();
-
-        for (Carta carta : this.cartas) {
-            if (carta.ehNaipe(naipe)) {
-                cartas.add(carta);
-            }
-        }
-        return cartas;
+        return cartas.stream().filter(carta -> carta.ehNaipe(naipe)).collect(Collectors.toList());
     }
 
     public List<Carta> procuraNaipe(final Carta carta) {
@@ -50,14 +42,7 @@ public class PokerHand implements Comparable<PokerHand> {
     }
 
     private List<Carta> procuraValor(final Valor valor) {
-        final List<Carta> cartas = new ArrayList<>();
-
-        for (Carta carta : this.cartas) {
-            if (carta.ehValor(valor)) {
-                cartas.add(carta);
-            }
-        }
-        return cartas;
+        return cartas.stream().filter(carta -> carta.ehValor(valor)).collect(Collectors.toList());
     }
 
     public List<Carta> procuraValor(final Carta carta) {
@@ -66,37 +51,18 @@ public class PokerHand implements Comparable<PokerHand> {
 
     @Override
     public int compareTo(final PokerHand o) {
-        final ECombinacao[] combinacoes = ECombinacao.values();
+        final ResultadoVerificacao esseResultado = ECombinacao.getResultadoHand(this);
+        final ResultadoVerificacao outroResultado = ECombinacao.getResultadoHand(o);
 
-        ECombinacao essaECombinacao = ECombinacao.ENada;
-        ECombinacao outraECombinacao = ECombinacao.ENada;
-        ResultadoVerificacao esseResultado = essaECombinacao.eh(this);
-        ResultadoVerificacao outroResultado = outraECombinacao.eh(o);
-
-        for (int i = 1; i < combinacoes.length; i++) {
-            final ECombinacao eCombinacao = combinacoes[i];
-            ResultadoVerificacao esseResultadoParcial = eCombinacao.eh(this);
-            ResultadoVerificacao outroResultadoParcial = eCombinacao.eh(o);
-
-            if (esseResultadoParcial.getSucesso()) {
-                esseResultado = esseResultadoParcial;
-                essaECombinacao = eCombinacao;
-            }
-            if (outroResultadoParcial.getSucesso()) {
-                outroResultado = outroResultadoParcial;
-                outraECombinacao = eCombinacao;
-            }
+        if (esseResultado.getCombinacaoTestada().ordinal() == outroResultado.getCombinacaoTestada().ordinal()) {
+            return esseResultado.getCombinacaoTestada().desenpata(esseResultado, outroResultado);
         }
 
-        if (essaECombinacao.ordinal() == outraECombinacao.ordinal()) {
-            return essaECombinacao.desenpata(esseResultado, outroResultado);
-        }
-
-        return Integer.compare(essaECombinacao.ordinal(), outraECombinacao.ordinal());
+        return Integer.compare(esseResultado.getCombinacaoTestada().ordinal(), outroResultado.getCombinacaoTestada().ordinal());
     }
 
     public Result compareWith(PokerHand o) {
-        int result = this.compareTo(o);
+        final int result = this.compareTo(o);
 
         if (result > 0) {
             return Result.WIN;

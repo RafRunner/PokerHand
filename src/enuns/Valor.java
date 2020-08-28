@@ -28,6 +28,7 @@ public enum Valor {
                 return v;
             }
         }
-        return null;
+
+        throw new ParseException("A representação " + representacao + "não corresponde a nenhum Valor");
     }
 }

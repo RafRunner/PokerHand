@@ -19,6 +19,7 @@ public enum Naipe {
                 return n;
             }
         }
-        return null;
+
+        throw new ParseException("A representação " + representacao + "não corresponde a nenhum Naipe");
     }
 }

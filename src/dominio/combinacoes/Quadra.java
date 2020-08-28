@@ -3,13 +3,14 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
+import enuns.ECombinacao;
 
 import java.util.List;
 
 public class Quadra {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, false);
+        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.EQuadra);
 
         for (int i = 0; i < 2; i++) {
             final List<Carta> possivelQuadra = pokerHand.procuraValor(pokerHand.getCarta(i));

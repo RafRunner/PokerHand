@@ -34,4 +34,19 @@ public enum ECombinacao {
     public int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {
         return desempate.desenpata(resultado1, resultado2);
     }
+
+    public static ResultadoVerificacao getResultadoHand(final PokerHand pokerHand) {
+        final ECombinacao[] combinacoes = values();
+
+        for (int i = combinacoes.length - 1; i >= 0; i--) {
+            final var resultado = combinacoes[i].eh(pokerHand);
+
+            if (resultado.getSucesso()) {
+                return resultado;
+            }
+        }
+
+        // Nunca acontece pois ENada sempre tem sucesso
+        throw new RuntimeException("Uma mão falhou em ser classificada. Pânico! Checar ENada");
+    }
 }
