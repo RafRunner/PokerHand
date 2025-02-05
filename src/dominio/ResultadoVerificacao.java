@@ -1,29 +1,28 @@
 package dominio;
 
-import enuns.ECombinacao;
+import enuns.Combinacao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ResultadoVerificacao {
 
-    private final ECombinacao combinacaoTestada;
+    private final Combinacao combinacaoTestada;
+    private final PokerHand pokerHand;
 
-    private PokerHand pokerHand;
     private Boolean sucesso;
-    private List<Carta> cartasForaDaCombinacao;
     private List<Carta> cartasCombinacao;
 
-    public ResultadoVerificacao(final PokerHand pokerHand, final ECombinacao combinacaoTestada) {
+    public ResultadoVerificacao(final PokerHand pokerHand, final Combinacao combinacaoTestada) {
         this.combinacaoTestada = combinacaoTestada;
         this.pokerHand = pokerHand;
         this.sucesso = false;
-        this.cartasForaDaCombinacao = new ArrayList<>(pokerHand.getCartas());
         this.cartasCombinacao = new ArrayList<>();
     }
 
-    public ECombinacao getCombinacaoTestada() {
+    public Combinacao getCombinacaoTestada() {
         return combinacaoTestada;
     }
 
@@ -36,7 +35,12 @@ public class ResultadoVerificacao {
     }
 
     public List<Carta> getCartasForaDaCombinacao() {
-        return cartasForaDaCombinacao;
+        final var setCartas = new TreeSet<>(cartasCombinacao);
+        
+        return pokerHand.getCartas()
+            .stream()
+            .filter((carta) -> !setCartas.contains(carta))
+            .collect(Collectors.toList());
     }
 
     public List<Carta> getCartasCombinacao() {
@@ -49,6 +53,5 @@ public class ResultadoVerificacao {
 
     public void marcaCartasComoDaCombinacao(final List<Carta> cartas) {
         cartasCombinacao.addAll(cartas);
-        cartasForaDaCombinacao = pokerHand.getCartas().stream().filter(carta1 -> cartasCombinacao.stream().noneMatch(carta2 -> carta2.equals(carta1))).collect(Collectors.toList());
     }
 }

@@ -3,20 +3,20 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 
 import java.util.List;
 
-public class Quadra {
+public class ParUtil {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.EQuadra);
+        final var resultado = new ResultadoVerificacao(pokerHand, Combinacao.Par);
 
-        for (int i = 0; i < 2; i++) {
-            final List<Carta> possivelQuadra = pokerHand.procuraValor(pokerHand.getCarta(i));
+        for (int i = 0; i < 4; i++) {
+            final List<Carta> possivelDupla = pokerHand.procuraValor(pokerHand.getCarta(i));
 
-            if (possivelQuadra.size() == 4) {
-                resultado.marcaCartasComoDaCombinacao(possivelQuadra);
+            if (possivelDupla.size() == 2) {
+                resultado.marcaCartasComoDaCombinacao(possivelDupla);
                 resultado.setSucesso(true);
                 return resultado;
             }

@@ -2,12 +2,17 @@ package dominio.combinacoes;
 
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 
-public class Flush {
+public class StraightFlushUtil {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        return CombinacaoUtils.ehFlush(pokerHand, ECombinacao.EFlush);
+        final var resultado = CombinacaoUtils.ehFlush(pokerHand, Combinacao.StraightFlush);
+        if (!resultado.getSucesso()) {
+            return resultado;
+        }
+
+        return CombinacaoUtils.ehSequencia(pokerHand, Combinacao.StraightFlush);
     }
 
     public static int desenpata(final ResultadoVerificacao resultado1, final ResultadoVerificacao resultado2) {

@@ -3,14 +3,14 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 import enuns.Valor;
 
 import java.util.List;
 
 public class CombinacaoUtils {
 
-    static ResultadoVerificacao ehSequencia(final PokerHand pokerHand, final ECombinacao combinacaoTestada) {
+    static ResultadoVerificacao ehSequencia(final PokerHand pokerHand, final Combinacao combinacaoTestada) {
         final var resultado = new ResultadoVerificacao(pokerHand, combinacaoTestada);
         final List<Carta> cartas = pokerHand.getCartas();
         Carta cartaAnterior = cartas.get(0);
@@ -30,7 +30,7 @@ public class CombinacaoUtils {
         return resultado;
     }
 
-    static ResultadoVerificacao ehFlush(final PokerHand pokerHand, final ECombinacao combinacaoTestada) {
+    static ResultadoVerificacao ehFlush(final PokerHand pokerHand, final Combinacao combinacaoTestada) {
         final var resultado = new ResultadoVerificacao(pokerHand, combinacaoTestada);
         resultado.setSucesso(pokerHand.procuraNaipe(pokerHand.getCarta(0)).size() == 5);
 

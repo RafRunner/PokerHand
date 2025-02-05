@@ -34,6 +34,11 @@ public class Carta implements Comparable<Carta> {
     }
 
     @Override
+    public String toString() {
+        return this.valor.name() + " de " + this.naipe.name();
+    }
+
+    @Override
     public int compareTo(final Carta o) {
         final int comparacaoValor = this.valor.compareTo(o.getValor());
 

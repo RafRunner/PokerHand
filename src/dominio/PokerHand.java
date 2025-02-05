@@ -1,6 +1,6 @@
 package dominio;
 
-import enuns.ECombinacao;
+import enuns.Combinacao;
 import enuns.Naipe;
 import enuns.Result;
 import enuns.Valor;
@@ -51,8 +51,8 @@ public class PokerHand implements Comparable<PokerHand> {
 
     @Override
     public int compareTo(final PokerHand o) {
-        final ResultadoVerificacao esseResultado = ECombinacao.getResultadoHand(this);
-        final ResultadoVerificacao outroResultado = ECombinacao.getResultadoHand(o);
+        final ResultadoVerificacao esseResultado = Combinacao.getResultadoHand(this);
+        final ResultadoVerificacao outroResultado = Combinacao.getResultadoHand(o);
 
         if (esseResultado.getCombinacaoTestada().ordinal() == outroResultado.getCombinacaoTestada().ordinal()) {
             return esseResultado.getCombinacaoTestada().desenpata(esseResultado, outroResultado);

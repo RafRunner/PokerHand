@@ -1,7 +1,7 @@
 package testes;
 
 import dominio.*;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 import enuns.Result;
 
 import java.util.Arrays;
@@ -19,33 +19,33 @@ public class Testes {
         PokerHand doisPares = new PokerHand("TD TC 6S 6C KD");
         PokerHand par = new PokerHand("8S 6H 2D AH AS");
 
-        Arrays.stream(ECombinacao.values()).forEach(eCombinacao -> { assert(!eCombinacao.eh(nada).getSucesso()); });
+        Arrays.stream(Combinacao.values()).forEach(eCombinacao -> { assert(!eCombinacao.eh(nada).getSucesso()); });
 
-        System.out.println("1 - " + ECombinacao.ERoyalFlush.eh(royalFlush).getSucesso());
-        System.out.println("2 - " + !ECombinacao.ERoyalFlush.eh(straighFlush).getSucesso());
+        System.out.println("1 - " + Combinacao.RoyalFlush.eh(royalFlush).getSucesso());
+        System.out.println("2 - " + !Combinacao.RoyalFlush.eh(straighFlush).getSucesso());
 
-        System.out.println("3 - " + ECombinacao.EStraightFlush.eh(straighFlush).getSucesso());
-        System.out.println("4 - " + !ECombinacao.EStraightFlush.eh(quadra).getSucesso());
+        System.out.println("3 - " + Combinacao.StraightFlush.eh(straighFlush).getSucesso());
+        System.out.println("4 - " + !Combinacao.StraightFlush.eh(quadra).getSucesso());
 
-        System.out.println("5 - " + ECombinacao.EQuadra.eh(quadra).getSucesso());
-        System.out.println("6 - " + !ECombinacao.EQuadra.eh(fullHouse).getSucesso());
+        System.out.println("5 - " + Combinacao.Quadra.eh(quadra).getSucesso());
+        System.out.println("6 - " + !Combinacao.Quadra.eh(fullHouse).getSucesso());
 
-        System.out.println("7 - " + ECombinacao.EFullHouse.eh(fullHouse).getSucesso());
-        System.out.println("8 - " + !ECombinacao.EFullHouse.eh(quadra).getSucesso());
-        System.out.println("9 - " + !ECombinacao.EFullHouse.eh(straighFlush).getSucesso());
+        System.out.println("7 - " + Combinacao.FullHouse.eh(fullHouse).getSucesso());
+        System.out.println("8 - " + !Combinacao.FullHouse.eh(quadra).getSucesso());
+        System.out.println("9 - " + !Combinacao.FullHouse.eh(straighFlush).getSucesso());
 
-        System.out.println("10 - " + ECombinacao.EFlush.eh(flush).getSucesso());
-        System.out.println("11 - " + !ECombinacao.EFlush.eh(fullHouse).getSucesso());
-        System.out.println("12 - " + !ECombinacao.EFlush.eh(quadra).getSucesso());
+        System.out.println("10 - " + Combinacao.Flush.eh(flush).getSucesso());
+        System.out.println("11 - " + !Combinacao.Flush.eh(fullHouse).getSucesso());
+        System.out.println("12 - " + !Combinacao.Flush.eh(quadra).getSucesso());
 
-        System.out.println("13 - " + ECombinacao.ETrinca.eh(trica).getSucesso());
-        System.out.println("14 - " + !ECombinacao.ETrinca.eh(doisPares).getSucesso());
-        System.out.println("15 - " + !ECombinacao.ETrinca.eh(par).getSucesso());
+        System.out.println("13 - " + Combinacao.Trinca.eh(trica).getSucesso());
+        System.out.println("14 - " + !Combinacao.Trinca.eh(doisPares).getSucesso());
+        System.out.println("15 - " + !Combinacao.Trinca.eh(par).getSucesso());
 
-        System.out.println("16 - " + ECombinacao.EDoisPares.eh(doisPares).getSucesso());
-        System.out.println("17 - " + !ECombinacao.EDoisPares.eh(par).getSucesso());
+        System.out.println("16 - " + Combinacao.DoisPares.eh(doisPares).getSucesso());
+        System.out.println("17 - " + !Combinacao.DoisPares.eh(par).getSucesso());
 
-        System.out.println("18 - " + ECombinacao.EPar.eh(par).getSucesso());
+        System.out.println("18 - " + Combinacao.Par.eh(par).getSucesso());
 
         System.out.println("19 - " + (new PokerHand("TC TH 5C 5H KH").compareWith(new PokerHand("9C 9H 5C 5H AC")) == Result.WIN));
         System.out.println("21 - " + (new PokerHand("TS TD KC JC 7C").compareWith(new PokerHand("JS JC AS KC TD")) == Result.LOSS));
@@ -73,5 +73,8 @@ public class Testes {
         System.out.println("43 - " + (new PokerHand("7C 8S 9H TH JH").compareWith(new PokerHand("TS TH TD JH JD")) == Result.LOSS));
         System.out.println("44 - " + (new PokerHand("7C 8S 9H TH JH").compareWith(new PokerHand("JH JD TH TC 4C")) == Result.WIN));
         System.out.println("45 - " + (new PokerHand("TS TH TD JH JD").compareWith(new PokerHand("JH JD TH TC 4C")) == Result.WIN));
+        System.out.println("46 - " + (new PokerHand("AS 2H 3D 4D 5S").compareWith(new PokerHand("3S 5D 4S 6C 2C")) == Result.LOSS));
+        System.out.println("47 - " + (new PokerHand("3S 5D 4S 6C 2C").compareWith(new PokerHand("AS 2H 3D 4D 5S")) == Result.WIN));
+        System.out.println("48 - " + (new PokerHand("3S 5D 4S 6C 2C").compareWith(new PokerHand("3C 5S 4H 6S 2S")) == Result.DRAW));
     }
 }

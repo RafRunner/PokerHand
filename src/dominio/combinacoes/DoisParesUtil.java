@@ -3,14 +3,14 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 
 import java.util.List;
 
-public class DoisPares {
+public class DoisParesUtil {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.EDoisPares);
+        final var resultado = new ResultadoVerificacao(pokerHand, Combinacao.DoisPares);
         int quantidadeDePares = 0;
 
         for (int i = 0; i < 4; i++) {

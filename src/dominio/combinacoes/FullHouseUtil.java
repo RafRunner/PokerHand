@@ -3,15 +3,15 @@ package dominio.combinacoes;
 import dominio.Carta;
 import dominio.PokerHand;
 import dominio.ResultadoVerificacao;
-import enuns.ECombinacao;
+import enuns.Combinacao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullHouse {
+public class FullHouseUtil {
 
     public static ResultadoVerificacao eh(final PokerHand pokerHand) {
-        final var resultado = new ResultadoVerificacao(pokerHand, ECombinacao.EFullHouse);
+        final var resultado = new ResultadoVerificacao(pokerHand, Combinacao.FullHouse);
 
         final List<Carta> menoresCartas = pokerHand.procuraValor(pokerHand.getCarta(0));
         int quantidadeMenorCarta = menoresCartas.size();
